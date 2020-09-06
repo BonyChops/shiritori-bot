@@ -32,8 +32,8 @@ const getYomi = (content) => {
     const str = content;
     const data = mecab.parseSync(str);
     const result =  data.reduce((acc, res) => {
-        acc = acc + (res[6] == "*" ? res[0] : res[6]);
-        return acc;
+        const word = (res[6] !== "*" ? res[6] : res[0]);
+        return acc + word;
     }, "");
     return result;
 }
