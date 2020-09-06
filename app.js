@@ -44,8 +44,8 @@ const shiri = (msg) => {
     const deleteData = (id) => {
         gameData = gameData.filter(data => data.id !== id);
     }
-    const userId = msg.author.id;
-    if (msg.content == "!shiritori") {
+    const userId = msg.content === "!shiritori-auto" ? client.user.id : msg.author.id;
+    if (msg.content.indexOf("!shiritori") !== -1) {
         if (gameData.some(data => data.id == userId)) {
             const word = gameData.find(data => data.id == userId).word;
             msg.reply(`ゲームはすでに始まってんよ〜\n\`${word}(${getYomi(word)})\``);
