@@ -29,7 +29,7 @@ const comKanaHira = (content, content2) => {
 }
 
 const getYomi = (content) => {
-    const str = kanaToHira(content);
+    const str = content;
     const data = mecab.parseSync(str);
     const result =  data.reduce((acc, res) => {
         acc = acc + (res[6] == "*" ? res[0] : res[6]);
