@@ -56,7 +56,14 @@ const shiri = (msg) => {
                 archive: []
             });
             gameData.find(data => data.id == userId).archive.push(firstWord);
-            msg.reply(`じゃあ俺からね〜\n\`${firstWord}(${getYomi(firstWord)})\``);
+            if(userId === client.user.id){
+                gameData.find(data => data.id == userId).bot = true;
+            }
+            if(gameData.find(data => data.id == userId).bot){
+                msg.channel.send(firstWord);
+            }else{
+                msg.reply(`じゃあ俺からね〜\n\`${firstWord}(${getYomi(firstWord)})\``);
+            }
         }
         return;
     }
@@ -90,7 +97,11 @@ const shiri = (msg) => {
         gameData.find(data => data.id == userId).archive.push(btWord);
         gameData.find(data => data.id == userId).archive.push(rtWord);
         gameData.find(data => data.id == userId).word = rtWord;
-        msg.reply(`\`${userData.word}(${getYomi(userData.word)})\``);
+        if(userData.bot){
+            msg.channel.send(userData.word);
+        }else{
+            msg.reply(`\`${userData.word}(${getYomi(userData.word)})\``);
+        }
     }
 }
 
