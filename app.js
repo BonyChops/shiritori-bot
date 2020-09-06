@@ -17,22 +17,22 @@ client.on('message', async (msg) => {
     shiri(msg);
 })
 
-const kanaToHira = (str) => {
-    return str.replace(/[\u30a1-\u30f6]/g, function (match) {
-        var chr = match.charCodeAt(0) - 0x60;
+function hiraToKana(str) {
+    return str.replace(/[\u3041-\u3096]/g, function(match) {
+        var chr = match.charCodeAt(0) + 0x60;
         return String.fromCharCode(chr);
     });
 }
 
 const comKanaHira = (content, content2) => {
-    return kanaToHira(content) === kanaToHira(content2);
+    return hiraToKana(content) === hiraToKana(content2);
 }
 
 const getYomi = (content) => {
     const str = content;
     const data = mecab.parseSync(str);
     const result =  data.reduce((acc, res) => {
-        const word = (res[6] !== "*" ? res[6] : res[0]);
+        const word = (res[7] !== "*" ? res[7] : res[0]);
         return acc + word;
     }, "");
     return result;
