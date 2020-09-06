@@ -1,0 +1,23 @@
+{
+  "name": "shiritori-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BonyChops/shiritori-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BonyChops/shiritori-bot/issues"
+  },
+  "homepage": "https://github.com/BonyChops/shiritori-bot#readme",
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "mecab-async": "^0.1.2"
+  }
+}
