@@ -81,7 +81,7 @@ const shiri = (msg) => {
             deleteData(userId);
             return;
         }
-        const rtWord = wordDB.find(word => comKanaHira(getYomi(word).substr(0, 1), getYomi(btWord).substr(-1, 1)) && !userData.archive.some(dataWord => comKanaHira(getYomi(dataWord) === getYomi(word))) && !comKanaHira(getYomi(word).substr(-1, 1), "ん"));
+        const rtWord = wordDB.find(word => comKanaHira(getYomi(word).substr(0, 1), getYomi(btWord).substr(-1, 1)) && !userData.archive.some(dataWord => comKanaHira(getYomi(dataWord), getYomi(word))) && !comKanaHira(getYomi(word).substr(-1, 1), "ん"));
         if (rtWord === undefined) {
             msg.reply("う〜〜〜ん...参りました...\nお前の勝ちやね。");
             deleteData(userId);
