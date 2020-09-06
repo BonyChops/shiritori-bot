@@ -17,13 +17,18 @@ client.on('message', async (msg) => {
     shiri(msg);
 })
 
+const kanaToHira = (str) => {
+    return str.replace(/[\u30a1-\u30f6]/g, function (match) {
+        var chr = match.charCodeAt(0) - 0x60;
+        return String.fromCharCode(chr);
+    });
+}
+
+const comKanaHira = (content, content2) => {
+    return kanaToHira(content) === kanaToHira(content2);
+}
+
 const getYomi = (content) => {
-    const kanaToHira = (str) => {
-        return str.replace(/[\u30a1-\u30f6]/g, function (match) {
-            var chr = match.charCodeAt(0) - 0x60;
-            return String.fromCharCode(chr);
-        });
-    }
     const str = kanaToHira(content);
     const data = mecab.parseSync(str);
     const result =  data.reduce((acc, res) => {
@@ -65,18 +70,18 @@ const shiri = (msg) => {
         }
 
 
-        if (getYomi(userData.word).substr(-1, 1) !== getYomi(btWord).substr(0, 1)) {
+        if (!comKanaHira(getYomi(userData.word).substr(-1, 1), getYomi(btWord).substr(0, 1))) {
             msg.reply(`しりとりのルールご存知？\`${getYomi(userData.word).substr(-1, 1)}\`→\`${getYomi(btWord).substr(0, 1)}\`は無理があるんだよなwwwwww\nお前の負け〜〜〜w\n前回: \`${userData.word}(${getYomi(userData.word)})\`\n今回: \`${btWord}(${getYomi(btWord)})\``);
             deleteData(userId);
             return;
         }
 
-        if (getYomi(btWord).substr(-1, 1) === "ん") {
+        if (comKanaHira(getYomi(btWord).substr(-1, 1), "ん")) {
             msg.reply(`しりとりのルールご存知？最後に\`ん\`は敗北宣言って一番言われてるからwwwwww\nお前の負け〜〜〜w\n\`${btWord}(${getYomi(btWord)})\``);
             deleteData(userId);
             return;
         }
-        const rtWord = wordDB.find(word => getYomi(word).substr(0, 1) === getYomi(btWord).substr(-1, 1) && !userData.archive.some(dataWord => getYomi(dataWord) === getYomi(word)) && getYomi(word).substr(-1, 1) !== "ん");
+        const rtWord = wordDB.find(word => comKanaHira(getYomi(word).substr(0, 1), getYomi(btWord).substr(-1, 1)) && !userData.archive.some(dataWord => comKanaHira(getYomi(dataWord) === getYomi(word))) && !comKanaHira(getYomi(word).substr(-1, 1), "ん"));
         if (rtWord === undefined) {
             msg.reply("う〜〜〜ん...参りました...\nお前の勝ちやね。");
             deleteData(userId);
