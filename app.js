@@ -70,23 +70,25 @@ const shiri = (msg) => {
     if (gameData.some(data => data.id == userId)) {
         const btWord = msg.content.trim();
         const userData = gameData.find(data => data.id == userId);
-        if (!userData.bot && userData.archive.some(word => getYomi(word) == getYomi(btWord))) {
-            msg.reply(`それもう使われてるんだよなw\nお前の負け〜〜〜w\n\`${btWord}(${getYomi(btWord)})\``);
-            deleteData(userId);
-            return;
-        }
+        if(!userData.bot){
+            if (userData.archive.some(word => getYomi(word) == getYomi(btWord))) {
+                msg.reply(`それもう使われてるんだよなw\nお前の負け〜〜〜w\n\`${btWord}(${getYomi(btWord)})\``);
+                deleteData(userId);
+                return;
+            }
 
 
-        if (!comKanaHira(getYomi(userData.word).substr(-1, 1), getYomi(btWord).substr(0, 1))) {
-            msg.reply(`しりとりのルールご存知？\`${getYomi(userData.word).substr(-1, 1)}\`→\`${getYomi(btWord).substr(0, 1)}\`は無理があるんだよなwwwwww\nお前の負け〜〜〜w\n前回: \`${userData.word}(${getYomi(userData.word)})\`\n今回: \`${btWord}(${getYomi(btWord)})\``);
-            deleteData(userId);
-            return;
-        }
+            if (!comKanaHira(getYomi(userData.word).substr(-1, 1), getYomi(btWord).substr(0, 1))) {
+                msg.reply(`しりとりのルールご存知？\`${getYomi(userData.word).substr(-1, 1)}\`→\`${getYomi(btWord).substr(0, 1)}\`は無理があるんだよなwwwwww\nお前の負け〜〜〜w\n前回: \`${userData.word}(${getYomi(userData.word)})\`\n今回: \`${btWord}(${getYomi(btWord)})\``);
+                deleteData(userId);
+                return;
+            }
 
-        if (comKanaHira(getYomi(btWord).substr(-1, 1), "ン")) {
-            msg.reply(`しりとりのルールご存知？最後に\`ん\`は敗北宣言って一番言われてるからwwwwww\nお前の負け〜〜〜w\n\`${btWord}(${getYomi(btWord)})\``);
-            deleteData(userId);
-            return;
+            if (comKanaHira(getYomi(btWord).substr(-1, 1), "ン")) {
+                msg.reply(`しりとりのルールご存知？最後に\`ん\`は敗北宣言って一番言われてるからwwwwww\nお前の負け〜〜〜w\n\`${btWord}(${getYomi(btWord)})\``);
+                deleteData(userId);
+                return;
+            }
         }
         const rtWord = wordDB.find(word => comKanaHira(getYomi(word).substr(0, 1), getYomi(btWord).substr(-1, 1)) && !userData.archive.some(dataWord => comKanaHira(getYomi(dataWord), getYomi(word))) && !comKanaHira(getYomi(word).substr(-1, 1), "ん"));
         if (rtWord === undefined) {
