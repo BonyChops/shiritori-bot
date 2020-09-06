@@ -76,7 +76,7 @@ const shiri = (msg) => {
             return;
         }
 
-        if (comKanaHira(getYomi(btWord).substr(-1, 1), "ん")) {
+        if (comKanaHira(getYomi(btWord).substr(-1, 1), "ン")) {
             msg.reply(`しりとりのルールご存知？最後に\`ん\`は敗北宣言って一番言われてるからwwwwww\nお前の負け〜〜〜w\n\`${btWord}(${getYomi(btWord)})\``);
             deleteData(userId);
             return;
