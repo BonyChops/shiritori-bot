@@ -70,7 +70,7 @@ const shiri = (msg) => {
     if (gameData.some(data => data.id == userId)) {
         const btWord = msg.content.trim();
         const userData = gameData.find(data => data.id == userId);
-        if (userData.archive.some(word => getYomi(word) == getYomi(btWord))) {
+        if (!userData.bot && userData.archive.some(word => getYomi(word) == getYomi(btWord))) {
             msg.reply(`それもう使われてるんだよなw\nお前の負け〜〜〜w\n\`${btWord}(${getYomi(btWord)})\``);
             deleteData(userId);
             return;
